@@ -8,10 +8,20 @@ const truncateDescription = (description, maxLength) =>
 
 const Products = ({ filterByRating }) => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
+
     fetch("https://dummyjson.com/products")
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        return response.json();
+      })
       .then((data) => {
         if (filterByRating) {
           const filteredProducts = data.products.filter(
@@ -21,11 +31,22 @@ const Products = ({ filterByRating }) => {
         } else {
           setProducts(data.products);
         }
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        setError(error.message);
+        setLoading(false);
       });
   }, [filterByRating]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <div className="container mx-auto bg-slate-700">
@@ -77,7 +98,7 @@ const Products = ({ filterByRating }) => {
             </div>
           ))
         ) : (
-          <p>Loading...</p>
+          <p>No products found.</p>
         )}
       </div>
     </div>
