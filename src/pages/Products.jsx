@@ -50,12 +50,12 @@ const Products = ({ filterByRating }) => {
 
   return (
     <div className="container mx-auto bg-slate-700">
-      <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ">
+      <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {products && products.length > 0 ? (
           products.map((product, id) => (
             <div
               key={id}
-              className="bg-white rounded-lg overflow-hidden shadow-lg  container mx-auto max-w-[90%] "
+              className="bg-gray-300 p-3 text-center rounded-xl overflow-hidden shadow-lg  container mx-auto max-w-[90%] my-8"
             >
               <img
                 src={product.thumbnail}
@@ -70,7 +70,7 @@ const Products = ({ filterByRating }) => {
                   {truncateDescription(product.description, 72)}
                 </p>
                 <div className="flex items-center mb-2">
-                  <p className="text-sm text-gray-800 mr-2">
+                  <p className="text-sm text-gray-800 mr-1">
                     Rating: {product.rating}
                   </p>
                   <MdOutlineStar color="#FFA500" size="20" />
